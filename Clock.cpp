@@ -1,6 +1,9 @@
 
 //UTA Assignment
 //begin include
+//Written on 4-20-19
+//DR.T
+//TCC TR Campus
 #include "clock_time.cpp"
 #define MAX_CLOCK_NAME
 #include<vector>
