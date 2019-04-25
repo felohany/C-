@@ -1,0 +1,37 @@
+default : clock_sim
+
+CXX=g++
+
+# Compile for general debug and verbose debug
+#CFLAGS = -g -D_DEBUG -DVERBOSE_DEBUG -DUNIX -Wall -fpack-struct  # GNU C++ compiler
+
+# Compile for general debug
+CFLAGS = -g -D_DEBUG -DUNIX -Wall -fpack-struct  # GNU C++ compiler
+
+# Compile for release
+# CFLAGS = -DUNIX -Wall -fpack-struct  # GNU C++ compiler
+
+ARFLAGS = -cr	# ar needs the dash on OpenBSD
+RANLIB = ranlib
+
+INCLUDES = -I.
+
+SRCS = $(wildcard *.cpp)
+
+OBJS = $(SRCS:.cpp=.o)
+LIBOBJS = $(OBJS)
+
+.PHONY:clean
+clean::
+	$(RM) $(LIBOBJS) clock_sim
+
+clock_sim: $(OBJS) 
+	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
+
+nolib: $(OBJS)		# makes it faster to test changes
+	$(CXX) -o ct $(CFLAGS) $(OBJS) $(LDFLAGS) $(LDLIBS)
+
+.SUFFIXES: .cpp
+
+.cpp.o:
+	$(CXX) $(CFLAGS) $(INCLUDES) $< -c
